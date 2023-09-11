@@ -1,5 +1,6 @@
 export PATH="$HOME/.bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/opt/go/bin:$PATH"
 
 ################ Section: ZSH PACKAGE MANAGER
 
@@ -12,18 +13,13 @@ zinit ice wait'!' lucid atload'source $HOME/.config/remote-config/p10k.zsh; _p9k
 zinit light romkatv/powerlevel10k
 
 zvm_config() {
-    ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
-    ZVM_CURSOR_STYLE_ENABLED=false
+   ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
+   ZVM_CURSOR_STYLE_ENABLED=false
 }
-zinit ice wait'!' lucid \
-  atinit'zvm_config() { \ 
-      ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT \
-      ZVM_CURSOR_STYLE_ENABLED=false \
-  } \
-  zvm_after_init_commands+=(init_fzf)'
 zinit light jeffreytse/zsh-vi-mode
 
 zinit light zsh-users/zsh-history-substring-search
+
 # Autosuggestions & fast-syntax-highlighting
 zinit wait lucid for \
   atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
@@ -43,13 +39,55 @@ zinit ice wait"0c" lucid reset \
   atload'zstyle ":completion:*" list-colors “${(s.:.)LS_COLORS}”'
 zinit light trapd00r/LS_COLORS
 
+### PROGRAM
+
+## nodejs
 zinit light asdf-vm/asdf
 
+## fzf
+zinit ice from"gh-r" as"program"
+zinit light junegunn/fzf
+
+zinit ice lucid wait'0'
+zinit light joshskidmore/zsh-fzf-history-search
+
+## ripgrep
+zi ice wait"1" from"gh-r" as"command" pick"rg/rg"
+zi light BurntSushi/ripgrep
+
+## fd
+zinit ice wait"1" lucid from"gh-r" as"command" mv"fd* -> fd" pick"fd/fd"
+zinit light sharkdp/fd
+
+## bat
+zinit ice wait"1" lucid from"gh-r" as"command" mv"bat* -> bat" pick"bat/bat"
+zinit light sharkdp/bat
+
+## dust
+zinit ice wait"1" lucid from"gh-r" as"command" mv"dust* -> dust" pick"dust/dust" \
+      atclone"git clone https://github.com/bootandy/dust.git dust-src && cp dust-src/completions/_dust . && rm -rf dust-src"
+zinit light bootandy/dust
+
+## eza
+zinit ice wait"1" lucid from"gh-r" as"program" mv"*eza -> eza" bpick"*linux*" \
+      atclone'chmod +x *eza \
+      	        && git clone https://github.com/eza-community/eza.git eza-src \
+		&& cp eza-src/completions/zsh/_eza . \
+		&& rm -rf eza-src'
+zinit light eza-community/eza
+
+## zoxide
 zinit ice wait"2" as"command" from"gh-r" lucid \
       mv"zoxide*/zoxide -> zoxide" \
       atclone"./zoxide init zsh > init.zsh" \
       atpull"%atclone" src"init.zsh" nocompile'!'
 zinit light ajeetdsouza/zoxide
+
+## direnv
+zinit as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
+      mv"GNUmakefile -> Makefile" \
+      atpull'%atclone' pick"direnv" src"zhook.zsh" for \
+          direnv/direnv
 
 ####################################################
 
@@ -63,8 +101,6 @@ alias gp="git push"
 alias tmuxa="tmux attach || tmux new"
 alias ..='cd ..'
 alias :q='exit'
-# alias cat='/nix/store/vpqq47j73y27694daipjpqn3fzr59gj7-bat-0.23.0/bin/bat'
-# alias du='/nix/store/sl9nzaspg0g9pjmjfqq42q44qchz1p4a-du-dust-0.8.6/bin/dust'
 alias g='git status -sb'
 alias ga='git add'
 alias gb='git branch -v'
@@ -111,22 +147,10 @@ alias gss='git stash save'
 alias gst='git status -sb'
 alias l='lla'
 alias la='lla'
-
-# completions
-# source "$HOME/.third-parties/exa/completions/exa.zsh"
-# source "$HOME/.third-parties/zoxide/completions/zoxide.zsh"
-# source "$HOME/.third-parties/bat/autocomplete/bat.zsh"
-
-fpath=($HOME/.third-parties/exa/completions $fpath)
-fpath=($HOME/.third-parties/zoxide/completions $fpath)
-fpath=($HOME/.third-parties/bat/autocomplete $fpath)
-
-# alias ls="exa"
+alias ls="eza"
 alias ll="ls -l --time-style long-iso --icons"
 alias la="ll -a"
 alias l="la"
-alias vim="nvim"
-# alias tree="et"
 
 # https://github.com/zshzoo/cd-ls/blob/main/cd-ls.zsh
 if ! (( $chpwd_functions[(I)chpwd_cdls] )); then

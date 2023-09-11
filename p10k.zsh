@@ -27,9 +27,11 @@
   [[ $ZSH_VERSION == (5.<1->*|<6->.*) ]] || return
 
   # Left prompt segments.
-  typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(prompt_char dir vcs)
+  typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(prompt_char context dir vcs)
   # Right prompt segments.
   typeset -g POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()
+
+  typeset -g POWERLEVEL9K_CONTEXT_{DEFAULT,SUDO}_{CONTENT,VISUAL_IDENTIFIER}_EXPANSION=
 
   # Basic style options that define the overall prompt look.
   typeset -g POWERLEVEL9K_BACKGROUND=                            # transparent background
