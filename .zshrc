@@ -9,7 +9,7 @@ ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 [ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 source "${ZINIT_HOME}/zinit.zsh"
 
-zinit ice wait'!' lucid atload'source $HOME/.config/remote-config/p10k.zsh; _p9k_precmd' nocd
+zinit ice wait'!' lucid atload'source $HOME/.p10k.zsh; _p9k_precmd' nocd
 zinit light romkatv/powerlevel10k
 
 zvm_config() {
