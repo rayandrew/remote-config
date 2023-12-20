@@ -80,17 +80,17 @@ zinit ice wait"1" lucid from"gh-r" as"program" mv"*eza -> eza" bpick"*linux*" \
 zinit light eza-community/eza
 
 ## zoxide
-zinit ice wait"2" as"command" from"gh-r" lucid \
+zinit ice wait"1" as"command" from"gh-r" lucid \
       mv"zoxide*/zoxide -> zoxide" \
       atclone"./zoxide init zsh > init.zsh" \
       atpull"%atclone" src"init.zsh" nocompile'!'
 zinit light ajeetdsouza/zoxide
 
 ## direnv
-zinit as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
-      mv"GNUmakefile -> Makefile" \
-      atpull'%atclone' pick"direnv" src"zhook.zsh" for \
-          direnv/direnv
+# zinit as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
+#       mv"GNUmakefile -> Makefile" \
+#       atpull'%atclone' pick"direnv" src"zhook.zsh" for \
+#           direnv/direnv
 
 ####################################################
 
