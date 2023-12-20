@@ -1,6 +1,9 @@
+bindkey -e
+
 export PATH="$HOME/.bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/opt/go/bin:$PATH"
+export PATH="$HOME/opt/parallel/bin:$PATH"
 
 ################ Section: ZSH PACKAGE MANAGER
 
@@ -13,8 +16,8 @@ zinit ice wait'!' lucid atload'source $HOME/.p10k.zsh; _p9k_precmd' nocd
 zinit light romkatv/powerlevel10k
 
 zvm_config() {
-   ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
-   ZVM_CURSOR_STYLE_ENABLED=false
+  ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
+  ZVM_CURSOR_STYLE_ENABLED=false
 }
 zinit light jeffreytse/zsh-vi-mode
 
@@ -220,3 +223,35 @@ alias ppython="PYTHONPATH=\$PYTHONPATH:. python"
 
 # remove ctrl-l
 bindkey -r "^L"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# just
+alias j="just --unstable"
+# add fpath to zshrc
+if [ -d ~/.just ]; then
+  fpath=(~/.just $fpath)
+fi
+
+# google-cloud-sdk
+
+if [ -f $HOME/opt/google-cloud-sdk/path.zsh.inc ]; then
+  source $HOME/opt/google-cloud-sdk/path.zsh.inc
+fi
+
+if [ -f $HOME/opt/google-cloud-sdk/completion.zsh.inc ]; then
+  source $HOME/opt/google-cloud-sdk/completion.zsh.inc
+fi
+
+##### PROJECTS #####
+
+# Flashnet
+export FLASHNET_CT="$HOME/flashnet-ct"
+
+#####################
+
+
+autoload -Uz compinit
+compinit -u
+
+export GPG_TTY=$(tty)
